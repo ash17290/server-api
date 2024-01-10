@@ -40,7 +40,7 @@ jobs:
             # Remove old docker volumes
             docker volume rm $(docker volume ls -q)
 
-            # Build new docker image
+            # Build new docker images
             docker build -t asyncapi/server-api .
 
             # Run new docker image
