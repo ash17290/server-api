@@ -44,7 +44,7 @@ jobs:
             docker build -t asyncapi/server-api .
 
             # Run new docker image
-            docker run -d -p 80:80 -p 443:443 --name asyncapi-server-api asyncapi/server-api --restart always
+            docker run -d -p 80:80 -p 443:443 --restart always --name asyncapi-server-api asyncapi/server-api
 
 
 
