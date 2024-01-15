@@ -22,4 +22,4 @@ jobs:
         with:
           app_name: "server-api"
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-          images: '[{"name":"asyncapi/server-api","image":{"registry_type":"DOCKER_HUB","registry":"asyncapi","repository":"server-api","tag":"latest"}}]'
+          images: '[{"name":"asyncapi-server-api","image":{"registry_type":"DOCKER_HUB","registry":"asyncapi","repository":"server-api","tag":"latest"}}]'
