@@ -13,43 +13,24 @@ on:
         default: 'master'
 
 jobs:
-  deploy:
+  deploy-app:
+    name: Deploy to DigitalOcean App
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to DigitalOcean Droplets
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Deploy to DigitalOcean App
+        uses: digitalocean/app_action@v1.1.5
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            cd /home/${{ secrets.USERNAME }}
-            if [ ! -d "deploy" ]; then
-              git clone https://github.com/asyncapi/server-api.git deploy
-            fi
-
-            cd deploy
-            git checkout master
-            git pull origin master
-
-            # Remove old docker containers
-            docker rm -f $(docker ps -a -q)
-            # Remove old docker images
-            docker rmi -f $(docker images -a -q)
-            # Remove old docker volumes
-            docker volume rm $(docker volume ls -q)
-
-            # Build new docker images
-            docker build -t asyncapi/server-api .
-
-            # Run new docker image
-            docker run -d -p 80:80 -p 443:443 --restart always --name asyncapi-server-api asyncapi/server-api
-
-
-
-
-
-
-
-
+          app_name: "server-api"
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          images: >
+            '[
+              {
+                "name": "asyncapi/server-api",
+                "image": {
+                  "registry_type": "DOCKER_HUB",
+                  "registry": "asyncapi",
+                  "repository": "server-api",
+                  "tag": "latest"
+                }
+              }
+            ]'
